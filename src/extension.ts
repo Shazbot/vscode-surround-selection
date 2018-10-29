@@ -21,37 +21,39 @@ export function activate(context: vscode.ExtensionContext) {
 
     let surround_with = (await window.showInputBox()) as string;
 
-    let surround_prefix = surround_with
-      .replace(")", "(")
-      .replace("}", "{")
-      .replace("]", "[");
+    if (surround_with) {
+      let surround_prefix = surround_with
+        .replace(")", "(")
+        .replace("}", "{")
+        .replace("]", "[");
 
-    let surround_postfix = surround_with
-      .replace("(", ")")
-      .replace("{", "}")
-      .replace("[", "]");
+      let surround_postfix = surround_with
+        .replace("(", ")")
+        .replace("{", "}")
+        .replace("[", "]");
 
-    let original_selection = editor.selection;
+      let original_selection = editor.selection;
 
-    editor
-      .edit(builder => {
-        builder.insert(original_selection.active, surround_postfix);
-        builder.insert(original_selection.anchor, surround_prefix);
-      })
-      .then(function() {
-        let after_edit_selection = editor!.selection;
-        if (original_selection.anchor.compareTo(original_selection.active) < 0) {
-          editor!.selection = new Selection(
-            after_edit_selection.anchor.translate(0, 0),
-            after_edit_selection.active.translate(0, -surround_postfix.length)
-          );
-        } else {
-          editor!.selection = new Selection(
-            after_edit_selection.anchor.translate(0, -surround_prefix.length),
-            after_edit_selection.active.translate(0, 0)
-          );
-        }
-      });
+      editor
+        .edit(builder => {
+          builder.insert(original_selection.active, surround_postfix);
+          builder.insert(original_selection.anchor, surround_prefix);
+        })
+        .then(function() {
+          let after_edit_selection = editor!.selection;
+          if (original_selection.anchor.compareTo(original_selection.active) < 0) {
+            editor!.selection = new Selection(
+              after_edit_selection.anchor.translate(0, 0),
+              after_edit_selection.active.translate(0, -surround_postfix.length)
+            );
+          } else {
+            editor!.selection = new Selection(
+              after_edit_selection.anchor.translate(0, -surround_prefix.length),
+              after_edit_selection.active.translate(0, 0)
+            );
+          }
+        });
+    }
   });
 
   context.subscriptions.push(disposable);
