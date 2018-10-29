@@ -6,4 +6,4 @@ Inspired by the Sublime Text extension.
 
 Adds a `Surround Selection` command that prompts for a string that will surround the selected text.
 
-![feature X](images/quotes_swap.gif)
+![surround selection](https://raw.githubusercontent.com/Shazbot/vscode-surround-selection/master/images/surround_selection.gif)
