@@ -1,9 +1,9 @@
 {
-    "name": "helloworld",
-    "displayName": "HelloWorld",
-    "description": "test test",
-    "version": "0.0.1",
-    "publisher": "guy",
+    "name": "surroundelection",
+    "displayName": "Surround Selection",
+    "description": "Surround selected text with your input, inspired by the Sublime Text extension.",
+    "version": "0.1.0",
+    "publisher": "Shazbot",
     "engines": {
         "vscode": "^1.28.0"
     },
@@ -11,13 +11,13 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.surroundWith"
+        "onCommand:extension.surroundSelection"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [{
-            "command": "extension.surroundWith",
-            "title": "Surround With"
+            "command": "extension.surroundSelection",
+            "title": "Surround Selection"
         }]
     },
     "scripts": {
