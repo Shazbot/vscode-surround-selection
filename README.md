@@ -1,6 +1,6 @@
 # Surround Selection
 
-Surround select text with custom text input, intended for surrounding text with brackets and quotes.
+Surround selected text with custom text, intended for use with brackets and quotes.
 
 Inspired by the Sublime Text extension.
 
