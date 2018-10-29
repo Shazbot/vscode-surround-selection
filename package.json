@@ -2,7 +2,7 @@
     "name": "surroundelection",
     "displayName": "Surround Selection",
     "description": "Surround selected text with your input, inspired by the Sublime Text extension.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "Shazbot",
     "engines": {
         "vscode": "^1.28.0"
@@ -15,10 +15,12 @@
     ],
     "main": "./out/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.surroundSelection",
-            "title": "Surround Selection"
-        }]
+        "commands": [
+            {
+                "command": "extension.surroundSelection",
+                "title": "Surround Selection"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
