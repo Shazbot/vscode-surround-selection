@@ -36,8 +36,16 @@ export function activate(context: vscode.ExtensionContext) {
 
       editor
         .edit(builder => {
-          builder.insert(original_selection.active, surround_postfix);
-          builder.insert(original_selection.anchor, surround_prefix);
+          let postfixPos = original_selection.active;
+          let prefixPos = original_selection.anchor;
+
+          if (original_selection.anchor.compareTo(original_selection.active) >= 0) {
+            postfixPos = original_selection.anchor;
+            prefixPos = original_selection.active;
+          }
+
+          builder.insert(prefixPos, surround_prefix);
+          builder.insert(postfixPos, surround_postfix);
         })
         .then(function() {
           let after_edit_selection = editor!.selection;
