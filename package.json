@@ -1,5 +1,5 @@
 {
-    "name": "surroundelection",
+    "name": "surround-selection",
     "displayName": "Surround Selection",
     "description": "Surround selected text with your input, inspired by the Sublime Text extension.",
     "version": "0.1.3",
