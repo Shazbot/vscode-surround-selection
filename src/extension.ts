@@ -22,44 +22,45 @@ export function activate(context: vscode.ExtensionContext) {
     let surround_with = (await window.showInputBox()) as string;
 
     if (surround_with) {
-      let surround_prefix = surround_with
-        .replace(")", "(")
-        .replace("}", "{")
-        .replace("]", "[");
+      let surround_prefix = surround_with.replace(")", "(").replace("}", "{").replace("]", "[");
 
-      let surround_postfix = surround_with
-        .replace("(", ")")
-        .replace("{", "}")
-        .replace("[", "]");
+      let surround_postfix = surround_with.replace("(", ")").replace("{", "}").replace("[", "]");
 
-      let original_selection = editor.selection;
+      let original_selections = editor.selections;
 
-      editor
-        .edit(builder => {
-          let postfixPos = original_selection.active;
-          let prefixPos = original_selection.anchor;
+      editor!
+        .edit((builder) => {
+          original_selections.forEach((original_selection, i) => {
+            let postfixPos = original_selection.active;
+            let prefixPos = original_selection.anchor;
 
-          if (original_selection.anchor.compareTo(original_selection.active) >= 0) {
-            postfixPos = original_selection.anchor;
-            prefixPos = original_selection.active;
-          }
+            if (original_selection.anchor.compareTo(original_selection.active) >= 0) {
+              postfixPos = original_selection.anchor;
+              prefixPos = original_selection.active;
+            }
 
-          builder.insert(prefixPos, surround_prefix);
-          builder.insert(postfixPos, surround_postfix);
+            builder.insert(prefixPos, surround_prefix);
+            builder.insert(postfixPos, surround_postfix);
+          });
         })
-        .then(function() {
-          let after_edit_selection = editor!.selection;
-          if (original_selection.anchor.compareTo(original_selection.active) < 0) {
-            editor!.selection = new Selection(
-              after_edit_selection.anchor.translate(0, 0),
-              after_edit_selection.active.translate(0, -surround_postfix.length)
-            );
-          } else {
-            editor!.selection = new Selection(
-              after_edit_selection.anchor.translate(0, -surround_prefix.length),
-              after_edit_selection.active.translate(0, 0)
-            );
-          }
+        .then(function () {
+          let editor = vscode.window.activeTextEditor;
+          original_selections.forEach((original_selection, i) => {
+            let after_edit_selection = editor!.selections[i];
+            if (original_selection.anchor.compareTo(original_selection.active) < 0) {
+              editor!.selections[i] = new Selection(
+                after_edit_selection.anchor.translate(0, 0),
+                after_edit_selection.active.translate(0, -surround_postfix.length)
+              );
+            } else {
+              editor!.selections[i] = new Selection(
+                after_edit_selection.anchor.translate(0, -surround_prefix.length + 1),
+                after_edit_selection.active.translate(0, 0)
+              );
+            }
+          });
+
+          editor!.selections = editor!.selections;
         });
     }
   });
